@@ -41,7 +41,7 @@ import java.util.List;
 ={2}    {tokens.add("=="); System.out.println("IGUAL_QUE");}
 %{2}    {tokens.add("%%"); System.out.println("DOBLE_MOD");}
 [1-9]+  {tokens.add("numero"); System.out.println("NUMERO"); }
-[A-Za-z]+ {tokens.add("id"); System.out.println("IDENTIFICADOR");}
+[_A-Za-z][A-Za-z]* {tokens.add("id"); System.out.println("IDENTIFICADOR");}
 
 
 
