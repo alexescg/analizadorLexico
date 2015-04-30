@@ -1,31 +1,34 @@
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
+import mx.uach.compiladores.analizadorlexico.Token;
+
 %%
 %public
 %class Lexer
 %standalone
 
 %{
-    private List<String> tokens = new ArrayList<>();
+    public Token currentToken;
+    private List<Token> tokens = new ArrayList<>();
 %}
 
 %{
-    public List<String> analizar(String archivo){
+    public List<Token> analizar(String archivo){
         FileReader in = null;
         try{
             in = new FileReader(archivo);
             Lexer lex = new Lexer(in);
-            while(!lexer.zzAtEOF){
-            lexer.yylex();
+            while(!lex.zzAtEOF){
+            lex.yylex();
             }
         }catch(Exception ex){
-            System.out.println("NO JALO D:");
+            System.out.println("no work");
         }finally{
             try{
                 in.close();
             }catch(Exception ex){
-                System.out.println("NO CERRO D:");
+                System.out.println("no close");
             }
         }
             return tokens;
