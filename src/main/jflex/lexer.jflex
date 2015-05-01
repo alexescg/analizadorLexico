@@ -1,7 +1,8 @@
-import java.io.FileReader;
+ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 import mx.uach.compiladores.analizadorlexico.Token;
+import java.util.stream.Collectors;
 
 %%
 %public
@@ -9,8 +10,12 @@ import mx.uach.compiladores.analizadorlexico.Token;
 %standalone
 
 %{
-    public Token currentToken;
-    private List<Token> tokens = new ArrayList<>();
+
+    Token token = null;
+    private List<Token> listaTokens = new ArrayList<>();
+    private static Integer linea = 1;
+    private static final String IMPLICA = "Implica"; 
+
 %}
 
 %{
@@ -31,20 +36,10 @@ import mx.uach.compiladores.analizadorlexico.Token;
                 System.out.println("no close");
             }
         }
-            return tokens;
+            return listaTokens;
     }
 %}
 
 %%
-
-":"     {tokens.add(":"); System.out.println("DOS_PUNTOS");}
-";"     {tokens.add(";"); System.out.println("PUNTO_COMA");}
-">"     {tokens.add(">"); System.out.println("MAYOR_QUE");}
-"<"     {tokens.add("<"); System.out.println("MENOR_QUE");}
-={2}    {tokens.add("=="); System.out.println("IGUAL_QUE");}
-%{2}    {tokens.add("%%"); System.out.println("DOBLE_MOD");}
-[1-9]+  {tokens.add("numero"); System.out.println("NUMERO"); }
-[_A-Za-z][A-Za-z]* {tokens.add("id"); System.out.println("IDENTIFICADOR");}
-
-
-
+            //Constructor de token(linea, token, lexema)
+":-"     {token = new Token(this.linea, IMPLICA, yytext()); listaTokens.add(token); System.out.println("Tokens = " + listaTokens.stream().collect(Collectors.toList()));}
