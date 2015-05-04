@@ -63,19 +63,15 @@ import java.util.stream.Collectors;
 ")"         {token = new Token(this.linea, PARENTESIS_DER, yytext()); listaTokens.add(token); System.out.println("Tokens = " + listaTokens.stream().collect(Collectors.toList()));}
 "\."        {token = new Token(this.linea, PUNTO, yytext()); listaTokens.add(token); System.out.println("Tokens = " + listaTokens.stream().collect(Collectors.toList()));}
 ","         {token = new Token(this.linea, COMA, yytext()); listaTokens.add(token); System.out.println("Tokens = " + listaTokens.stream().collect(Collectors.toList()));}
-[+-]?[0-9]+     {token = new Token(this.linea, ENTERO, yytext()); listaTokens.add(token); System.out.println("Tokens = " + listaTokens.stream().collect(Collectors.toList()));}
 
 //Entero
-[0-9]+     {token = new Token(this.linea, ENTERO, yytext()); listaTokens.add(token); System.out.println("Tokens = " + listaTokens.stream().collect(Collectors.toList()));}
+[+-]?[0-9]+     {token = new Token(this.linea, ENTERO, yytext()); listaTokens.add(token); System.out.println("Tokens = " + listaTokens.stream().collect(Collectors.toList()));}
 
 //Punto fijo
 [+-]?(\.[0-9]+|[0-9]\.[0-9]*|[0-9]\.)  {token = new Token(this.linea, PTO_FIJO, yytext()); listaTokens.add(token); System.out.println("Tokens = " + listaTokens.stream().collect(Collectors.toList()));}
 
 //Atomo
-([a-z][\w]*|[^0-9a-zA-Z\s*]+|'(.*?)') {token = new Token(this.linea, ATOMO, yytext()); listaTokens.add(token); System.out.println("Tokens = " + listaTokens.stream().collect(Collectors.toList()));}
-//[^0-9a-zA-Z\s*]+     {token = new Token(this.linea, ATOMO, yytext()); listaTokens.add(token); System.out.println("Tokens = " + listaTokens.stream().collect(Collectors.toList()));}
-//"(.*?)"           {token = new Token(this.linea, ATOMO, yytext()); listaTokens.add(token); System.out.println("Tokens = " + listaTokens.stream().collect(Collectors.toList()));}
-
+([a-z][\w]*|[^0-9a-zA-Z\s\[\(*]+|'(.*?)') {token = new Token(this.linea, ATOMO, yytext()); listaTokens.add(token); System.out.println("Tokens = " + listaTokens.stream().collect(Collectors.toList()));}
 
 //Variable
 [A-Z_][\w]*          {token = new Token(this.linea, VARIABLE, yytext()); listaTokens.add(token); System.out.println("Tokens = " + listaTokens.stream().collect(Collectors.toList()));}
@@ -83,7 +79,9 @@ import java.util.stream.Collectors;
 //Punto Flotante
 [+-]?([0-9]*?\.[0-9]+|[0-9]+)[Ee][+-]?[0-9]+  {token = new Token(this.linea, PTO_FLOT, yytext()); listaTokens.add(token); System.out.println("Tokens = " + listaTokens.stream().collect(Collectors.toList()));}
 
+//Lista
+\\[(((\".*?\")|([a-z][\\w]*|[^0-9a-z,\\[\\]A-Z\\s]+|'(.*?)')|([+-]?[0-9]+)|([+-]?(\\.[0-9]+|[0-9]\\.[0-9]*|[0-9]\\.))|([+-]?([0-9]*?\\.[0-9]+|[0-9]+)[Ee][+-]?[0-9]+)|([A-Z][\\w]*)|(\\4\\((\\1|\\2|\\3|\\4|\\5|\\6|\\7|\\8|\\9|\\10|\\11|\\12)*)\\))((\\s)|\\s*|(, ?\\1))?)*[^, ]+\\]  {token = new Token(this.linea, LISTA, yytext()); listaTokens.add(token); System.out.println("Tokens = " + listaTokens.stream().collect(Collectors.toList()));}
 
-
-
+//Cadena
+\"(.*?)\" {token = new Token(this.linea, CADENA, yytext()); listaTokens.add(token); System.out.println("Tokens = " + listaTokens.stream().collect(Collectors.toList()));}
 
