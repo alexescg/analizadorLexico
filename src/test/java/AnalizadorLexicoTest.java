@@ -245,5 +245,253 @@ public class AnalizadorLexicoTest {
         scanner.yylex();
         assertFalse("[1 --- Variable --- _H+la]".equals(scanner.getListaTokens().toString()));
     }
+    
+    /**
+     * Prueba que verifica la exprecion regular del punto fijo
+     *
+     * @throws IOException cuando el archivo no es encontrado
+     */
+
+    @Test
+    public void ptoFijo() throws IOException {
+
+        Lexer scanner = null;
+        File file = new File("FileToInspect");
+        FileOutputStream fooStream = new FileOutputStream(file, false); // true to append
+        byte[] myBytes;
+        myBytes = "-.5".getBytes();
+        fooStream.write(myBytes);
+        fooStream.close();
+
+        java.io.FileInputStream stream = new java.io.FileInputStream("FileToInspect");
+        java.io.Reader reader = new java.io.InputStreamReader(stream, "UTF-8");
+        scanner = new Lexer(reader);
+        scanner.yylex();
+        assertTrue("[1 --- Punto Fijo --- -.5]".equals(scanner.getListaTokens().toString()));
+    }
+    
+    /**
+     * Prueba que verifica la exprecion regular del punto fijo y su fallo al 
+     * colocar letras
+     *
+     * @throws IOException cuando el archivo no es encontrado
+     */
+
+    @Test
+    public void ptoFijFail() throws IOException {
+
+        Lexer scanner = null;
+        File file = new File("FileToInspect");
+        FileOutputStream fooStream = new FileOutputStream(file, false); // true to append
+        byte[] myBytes;
+        myBytes = "-.a5".getBytes();
+        fooStream.write(myBytes);
+        fooStream.close();
+
+        java.io.FileInputStream stream = new java.io.FileInputStream("FileToInspect");
+        java.io.Reader reader = new java.io.InputStreamReader(stream, "UTF-8");
+        scanner = new Lexer(reader);
+        scanner.yylex();
+        assertFalse("[1 --- Punto Fijo --- -.5]".equals(scanner.getListaTokens().toString()));
+    }
+    
+    /**
+     * Prueba que verifica la exprecion regular del punto flot
+     *
+     * @throws IOException cuando el archivo no es encontrado
+     */
+
+    @Test
+    public void ptoFlot() throws IOException {
+
+        Lexer scanner = null;
+        File file = new File("FileToInspect");
+        FileOutputStream fooStream = new FileOutputStream(file, false); // true to append
+        byte[] myBytes;
+        myBytes = "4e5".getBytes();
+        fooStream.write(myBytes);
+        fooStream.close();
+
+        java.io.FileInputStream stream = new java.io.FileInputStream("FileToInspect");
+        java.io.Reader reader = new java.io.InputStreamReader(stream, "UTF-8");
+        scanner = new Lexer(reader);
+        scanner.yylex();
+        assertTrue("[1 --- Punto Flotante --- 4e5]".equals(scanner.getListaTokens().toString()));
+    }
+    
+    /**
+     * Prueba que verifica la exprecion regular del punto flot y su fallo al 
+     * colocar letras diferentes a la e
+     *
+     * @throws IOException cuando el archivo no es encontrado
+     */
+
+    @Test
+    public void ptoFlotFail() throws IOException {
+
+        Lexer scanner = null;
+        File file = new File("FileToInspect");
+        FileOutputStream fooStream = new FileOutputStream(file, false); // true to append
+        byte[] myBytes;
+        myBytes = "4a5".getBytes();
+        fooStream.write(myBytes);
+        fooStream.close();
+
+        java.io.FileInputStream stream = new java.io.FileInputStream("FileToInspect");
+        java.io.Reader reader = new java.io.InputStreamReader(stream, "UTF-8");
+        scanner = new Lexer(reader);
+        scanner.yylex();
+        assertFalse("[1 --- Punto Flotante --- 4a5]".equals(scanner.getListaTokens().toString()));
+    }
+    
+    /**
+     * Prueba que verifica la exprecion regular del cadena
+     *
+     * @throws IOException cuando el archivo no es encontrado
+     */
+
+    @Test
+    public void cadenaRegx() throws IOException {
+
+        Lexer scanner = null;
+        File file = new File("FileToInspect");
+        FileOutputStream fooStream = new FileOutputStream(file, false); // true to append
+        byte[] myBytes;
+        myBytes = "\"gola\"".getBytes();
+        fooStream.write(myBytes);
+        fooStream.close();
+
+        java.io.FileInputStream stream = new java.io.FileInputStream("FileToInspect");
+        java.io.Reader reader = new java.io.InputStreamReader(stream, "UTF-8");
+        scanner = new Lexer(reader);
+        scanner.yylex();
+        assertTrue("[1 --- Cadena --- \"gola\"]".equals(scanner.getListaTokens().toString()));
+    }
+    
+    /**
+     * Prueba que verifica la exprecion regular de cadena y su fallo al 
+     * no colocar las comillas finales
+     *
+     * @throws IOException cuando el archivo no es encontrado
+     */
+
+    @Test
+    public void cadenaRegxFail() throws IOException {
+
+        Lexer scanner = null;
+        File file = new File("FileToInspect");
+        FileOutputStream fooStream = new FileOutputStream(file, false); // true to append
+        byte[] myBytes;
+        myBytes = "\"gola".getBytes();
+        fooStream.write(myBytes);
+        fooStream.close();
+
+        java.io.FileInputStream stream = new java.io.FileInputStream("FileToInspect");
+        java.io.Reader reader = new java.io.InputStreamReader(stream, "UTF-8");
+        scanner = new Lexer(reader);
+        scanner.yylex();
+        assertFalse("[1 --- Cadena --- \"gola]".equals(scanner.getListaTokens().toString()));
+    }
+    
+    /**
+     * Prueba que verifica la exprecion regular del lista
+     *
+     * @throws IOException cuando el archivo no es encontrado
+     */
+
+    @Test
+    public void listaRegx() throws IOException {
+
+        Lexer scanner = null;
+        File file = new File("FileToInspect");
+        FileOutputStream fooStream = new FileOutputStream(file, false); // true to append
+        byte[] myBytes;
+        myBytes = "[1,2,3]".getBytes();
+        fooStream.write(myBytes);
+        fooStream.close();
+
+        java.io.FileInputStream stream = new java.io.FileInputStream("FileToInspect");
+        java.io.Reader reader = new java.io.InputStreamReader(stream, "UTF-8");
+        scanner = new Lexer(reader);
+        scanner.yylex();
+        assertTrue("[1 --- Lista --- [1,2,3]]".equals(scanner.getListaTokens().toString()));
+    }
+    
+    /**
+     * Prueba que verifica la exprecion regular de la lista y su fallo al 
+     * no colocar la llave que cierra
+     *
+     * @throws IOException cuando el archivo no es encontrado
+     */
+
+    @Test
+    public void listaRegxFail() throws IOException {
+
+        Lexer scanner = null;
+        File file = new File("FileToInspect");
+        FileOutputStream fooStream = new FileOutputStream(file, false); // true to append
+        byte[] myBytes;
+        myBytes = "[1,2,3".getBytes();
+        fooStream.write(myBytes);
+        fooStream.close();
+
+        java.io.FileInputStream stream = new java.io.FileInputStream("FileToInspect");
+        java.io.Reader reader = new java.io.InputStreamReader(stream, "UTF-8");
+        scanner = new Lexer(reader);
+        scanner.yylex();
+        assertFalse("[1 --- Lista --- [1,2,3]".equals(scanner.getListaTokens().toString()));
+    }
+    
+    /**
+     * Prueba que verifica la exprecion regular del lista
+     *
+     * @throws IOException cuando el archivo no es encontrado
+     */
+
+    @Test
+    public void predicadoRegx() throws IOException {
+
+        Lexer scanner = null;
+        File file = new File("FileToInspect");
+        FileOutputStream fooStream = new FileOutputStream(file, false); // true to append
+        byte[] myBytes;
+        myBytes = "atomo(hola)".getBytes();
+        fooStream.write(myBytes);
+        fooStream.close();
+
+        java.io.FileInputStream stream = new java.io.FileInputStream("FileToInspect");
+        java.io.Reader reader = new java.io.InputStreamReader(stream, "UTF-8");
+        scanner = new Lexer(reader);
+        scanner.yylex();
+        System.out.println("--------------");
+        System.out.println(scanner.getListaTokens().toString());
+        assertTrue("[1 --- Predicado --- atomo(hola)]".equals(scanner.getListaTokens().toString()));
+    }
+    
+    /**
+     * Prueba que verifica la exprecion regular de la lista y su fallo al 
+     * no colocar la llave que cierra
+     *
+     * @throws IOException cuando el archivo no es encontrado
+     */
+
+    @Test
+    public void predicadoRegxFail() throws IOException {
+
+        Lexer scanner = null;
+        File file = new File("FileToInspect");
+        FileOutputStream fooStream = new FileOutputStream(file, false); // true to append
+        byte[] myBytes;
+        myBytes = "atomo(hola".getBytes();
+        fooStream.write(myBytes);
+        fooStream.close();
+
+        java.io.FileInputStream stream = new java.io.FileInputStream("FileToInspect");
+        java.io.Reader reader = new java.io.InputStreamReader(stream, "UTF-8");
+        scanner = new Lexer(reader);
+        scanner.yylex();
+        assertFalse("[1 --- Predicado --- atomo(hola".equals(scanner.getListaTokens().toString()));
+    }
+
 
 }
