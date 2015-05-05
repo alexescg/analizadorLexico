@@ -34,6 +34,22 @@ import java.util.stream.Collectors;
 %}
 
 %{
+    /**
+     * Constructor vacio de lexer para su utilizacion en pruebas
+     *
+     * 
+     */
+    Lexer() {
+        }
+        
+    /**
+     * Metodo que regresa la lista de tokens
+     *
+     * 
+     */
+    public List<Token> getListaTokens() {
+        return listaTokens;
+    }
     public List<Token> analizar(String archivo){
         FileReader in = null;
         try{
@@ -79,9 +95,11 @@ import java.util.stream.Collectors;
 //Punto Flotante
 [+-]?([0-9]*?\.[0-9]+|[0-9]+)[Ee][+-]?[0-9]+  {token = new Token(this.linea, PTO_FLOT, yytext()); listaTokens.add(token); System.out.println("Tokens = " + listaTokens.stream().collect(Collectors.toList()));}
 
-//Lista
-\\[(((\".*?\")|([a-z][\\w]*|[^0-9a-z,\\[\\]A-Z\\s]+|'(.*?)')|([+-]?[0-9]+)|([+-]?(\\.[0-9]+|[0-9]\\.[0-9]*|[0-9]\\.))|([+-]?([0-9]*?\\.[0-9]+|[0-9]+)[Ee][+-]?[0-9]+)|([A-Z][\\w]*)|(\\4\\((\\1|\\2|\\3|\\4|\\5|\\6|\\7|\\8|\\9|\\10|\\11|\\12)*)\\))((\\s)|\\s*|(, ?\\1))?)*[^, ]+\\]  {token = new Token(this.linea, LISTA, yytext()); listaTokens.add(token); System.out.println("Tokens = " + listaTokens.stream().collect(Collectors.toList()));}
-
 //Cadena
 \"(.*?)\" {token = new Token(this.linea, CADENA, yytext()); listaTokens.add(token); System.out.println("Tokens = " + listaTokens.stream().collect(Collectors.toList()));}
 
+//Predicado
+(([a-z][\w]*|[^0-9a-zA-Z\s*,]+|'(.*)')\(((([a-z][\w]*|[^0-9a-zA-Z\s*,]+|'(.*)')|"(([\w]+)?| ?)"|[0-9]+|[A-Z_][\w]*)|\[(([a-z][\w]*|[^0-9a-zA-Z\s*,]+|'(.*)')|"(([\w]+)?| ?)"|[0-9]+|[A-Z_][\w]*|\1)((, *?)(([a-z][\w]*|[^0-9a-zA-Z\s*,]+|'(.*)')|"(([\w]+)?| ?)"|[0-9]+|[A-Z_][\w]*|\1))*?\])((, *?)((([a-z][\w]*|[^0-9a-zA-Z\s*,]+|'(.*)')|"(([\w]+)?| ?)"|[0-9]+|[A-Z_][\w]*)|\[(([a-z][\w]*|[^0-9a-zA-Z\s*,]+|'(.*)')|"(([\w]+)?| ?)"|[0-9]+|[A-Z_][\w]*|\1)((, *?)(([a-z][\w]*|[^0-9a-zA-Z\s*,]+|'(.*)')|"(([\w]+)?| ?)"|[0-9]+|[A-Z_][\w]*|\1))?\]))*?\)) {token = new Token(this.linea, PREDICADO, yytext()); listaTokens.add(token); System.out.println("Tokens = " + listaTokens.stream().collect(Collectors.toList()));}
+
+//Lista
+\[(([a-z][\w]*|[^0-9a-zA-Z\s*,]+|'(.*)')|"(([\w]+)?| ?)"|[0-9]+|[A-Z_][\w]*)((, *?)(([a-z][\w]*|[^0-9a-zA-Z\s*,]+|'(.*)')|"(([\w]+)?| ?)"|[0-9]+|[A-Z_][\w]*))*?\] {token = new Token(this.linea, LISTA, yytext()); listaTokens.add(token); System.out.println("Tokens = " + listaTokens.stream().collect(Collectors.toList()));}
