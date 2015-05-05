@@ -1,6 +1,12 @@
 # AFyAL, Autómata Finito y Analizador de Léxico
 Analizador de Léxico hecho JFlex y Maven
 
+Nota: Para correr el programa se tiene que cambiar el path del archivo default para correr, esto dentro del IDE Netbeans se hace haciendo click derecho en el proyecto->Propiedades(properties)->Ejecutar(Run)
+  -En el renglon de argumentos se colocara el path completo del archivo "archivo.xyz" el cual se encuentra en
+  src/main/resources/archivo.xyz del proyecto.
+  Ejemplo.-
+  /home/eZubia/Downloads/AnalizadorLexico/AnalizadorLexico/src/main/resources/archivo.xyz
+
 Construya un Analizador de Léxico usando la herramienta generadora JFlex y Maven, para un subconjunto del lenguaje prolog y el autómata.
 
 ϵ = {átomo, variable, predicado, entero, pto_fijo, pto_flot, (,), implica, lista, (coma), ;(punto y coma), (punto), cadena}
