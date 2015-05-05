@@ -82,7 +82,6 @@ Donde:
 
   
 #Autómata Finito
-EL diagrama para el autómata finito reside en:
-http://imgur.com/XhXcXyl
+![alt tag](https://cloud.githubusercontent.com/assets/10780058/7467148/d9d7afb2-f2ae-11e4-8c1c-9ec24090f9da.jpg)
 
 Luthor, lex
